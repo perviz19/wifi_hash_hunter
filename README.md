@@ -7,7 +7,7 @@ DOWNLOAD AND INSTALLATION
 
     cd wifi_hash_hunter
 
-    pip install -m requirements.txt
+    pip install -r requirements.txt
 
 OPEN
 
