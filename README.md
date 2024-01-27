@@ -17,5 +17,7 @@ or
 
     python3 wifi_crack.py
 
+
+
 ![image](https://github.com/perviz19/wifi_hash_hunter/assets/157914250/f7120361-cfa4-4285-9057-db27796292e7)
 
