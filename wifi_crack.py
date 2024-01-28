@@ -11,7 +11,7 @@ def set_monitor_mode(interface):
     print(process.stdout.decode())
     result= process.stdout.decode()
 
-    if "mon" in result:
+    if "Mon" in result:
         print(Fore.GREEN + "\ninterface already in monitor mode")
         time.sleep(1)
         return interface
@@ -23,7 +23,7 @@ def set_monitor_mode(interface):
         result = process.stdout.decode()
         pattern = r'^(\w+):'
         final = re.findall(pattern, result, re.MULTILINE)
-        if "mon" in result2:
+        if "Mon" in result2:
             print(Fore.GREEN + "\nInterface switched to monitor mode")
             time.sleep(1)
             for i in final:
@@ -131,7 +131,4 @@ checking(name)
 
 if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y":
     managed_mode(mon_interface)
-
-
-
 
