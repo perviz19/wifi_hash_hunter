@@ -18,6 +18,7 @@ def set_monitor_mode(interface):
         return interface+"mon"
 
 
+
 def scan_wifi(mon_interface):
     print(Fore.YELLOW + "\nCtrl+c for stop scan")
     time.sleep(2)
@@ -42,6 +43,7 @@ def scan_target(bssid, channel, mon_interface, name,zaman):
         airodump_process.kill()
 
 
+
 def convert(name):
     filenames = glob.glob(name + "*.cap")
 
@@ -60,13 +62,11 @@ def convert(name):
 
 
 
-
 def checking(name):
     if glob.glob(name + ".hc22000"):
         print(Fore.GREEN + "\nPassword found ---->> " + name + ".hc22000" )
     else:
         print(Fore.RED + "\nPassword not found")
-
 
 
 
@@ -77,6 +77,7 @@ def managed_mode(mon_interface):
     print(pyfiglet.figlet_format("END"))
 
 
+
 #START
 print(pyfiglet.figlet_format("W i f i \n c r a c k e r"))
 
@@ -84,6 +85,7 @@ print(pyfiglet.figlet_format("W i f i \n c r a c k e r"))
 result = sub.run(["iwconfig"],stdout=sub.PIPE)
 print(result.stdout.decode())
 interface = input(Fore.GREEN + "\nEnter the interface name (wlan0) : ")
+
 
 mon_interface = set_monitor_mode(interface)
 scan_wifi(mon_interface)
@@ -98,10 +100,11 @@ while True:
     except:
         print(Fore.RED + "\nPlease enter the number")
 
+
 name= input(Fore.GREEN + "\nEnter file name : ")
 
-
 scan_target(bssid, channel, mon_interface, name, zaman)
+
 
 convert(name)
 print(Fore.GREEN + "\nProcess ended")
