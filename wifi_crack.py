@@ -83,9 +83,9 @@ def convert(name):
 
 def checking(name):
     if glob.glob(name + ".hc22000"):
-        print(Fore.GREEN + "\nPassword found ---->> " + name + ".hc22000" )
-    else:
         print(Fore.RED + "\nPassword not found")
+    else:
+        print(Fore.GREEN + "\nPassword found ---->> " + name + ".hc22000" )
 
 
 
