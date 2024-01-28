@@ -3,7 +3,7 @@ import glob
 import time
 from colorama import Fore
 import pyfiglet
-
+import re
 
 
 def set_monitor_mode(interface):
@@ -17,16 +17,25 @@ def set_monitor_mode(interface):
         return interface
     else:
         sub.call(["airmon-ng","start",interface],stdout= sub.PIPE)
-        print(Fore.GREEN + "\nInterface switched to monitor mode")
-
-        process = sub.run(["iwconfig"], stdout=sub.PIPE)
+        time.sleep(1)
+        process = sub.run(["ifconfig"], stdout=sub.PIPE)
         result = process.stdout.decode()
+        pattern = r'^(\w+):'
+        final = re.findall(pattern, result, re.MULTILINE)
         if "mon" in result:
-            time.sleep(1)
-            return interface
+            print(Fore.GREEN + "\nInterface switched to monitor mode")
+            for i in final:
+                if "mon" in i:
+                    a=1
+                    break
+                else:
+                    a=0
+            if a==1:
+                return interface + "mon"
+            else:
+                return interface
         else:
-            return interface + "mon"
-
+            print(Fore.RED + "\nFailed to switch to interface monitor mode")
 
 
 def scan_wifi(mon_interface):
