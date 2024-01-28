@@ -6,6 +6,23 @@ import pyfiglet
 import re
 
 
+def check_tool():
+    tool_names = ["python", "pip", "xterm", "aircrack-ng", "hcxpcapngtool"]
+    for tool in tool_names:
+        time.sleep(0.5)
+        try:
+            sub.run(["which", tool], check=True)
+            print(Fore.BLUE + f"{tool} is installed\n")
+        except sub.CalledProcessError:
+            print(Fore.RED + f"{tool} is not installed\n")
+            decision = input(Fore.YELLOW + f"Dou you want install {tool}: (YES - y ||| NO - n): ")
+            if decision == "y":
+                dowload = sub.Popen(["apt", "install", tool])
+                dowload.wait()
+                print(Fore.GREEN + f"{tool} is installed\n")
+
+
+
 def set_monitor_mode(interface):
     process = sub.run(["iwconfig"], stdout=sub.PIPE)
     print(process.stdout.decode())
@@ -97,11 +114,13 @@ def managed_mode(mon_interface):
     print(Fore.GREEN + "\nSwitched to interface managed mode")
     print(pyfiglet.figlet_format("END"))
 
-
 #START
-print(pyfiglet.figlet_format("W i f i \n c r a c k e r"))
+print(pyfiglet.figlet_format("W i f i \n c r a c k e r\n"))
+check_tool()
 
 
+print(Fore.YELLOW+ f"\t\tTOOL STARTING\n")
+time.sleep(0.5)
 result = sub.run(["iwconfig"],stdout=sub.PIPE)
 print(result.stdout.decode())
 interface = input(Fore.GREEN + "\nEnter the interface name (wlan0) : ")
@@ -131,4 +150,5 @@ checking(name)
 
 if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y":
     managed_mode(mon_interface)
+
 
