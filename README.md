@@ -1,6 +1,10 @@
 # wifi_hash_hunter
 This tool captures handshakes from wifi networks and then converts them into hash (wpa) format.
 
+
+YOU WILL NEED SOME TOOLS:
+python, pip, xterm, aircrack-ng, hcxpcapngtool
+
 DOWNLOAD AND INSTALLATION
 
     git clone https://github.com/perviz19/wifi_hash_hunter.git
