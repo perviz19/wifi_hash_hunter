@@ -104,9 +104,13 @@ def checking(name):
     time.sleep(1.5)
     if glob.glob(name + ".hc22000"):
         print(Fore.GREEN + "\nPassword found ---->> " + name + ".hc22000")
+        return 0
     else:
         print(Fore.RED + "\nPassword not found")
-
+        if input(Fore.YELLOW + "\nDo you want try again (yes - y ||| no- n): ") == "y":
+            return 1
+        else:
+            return 0
 
 
 
@@ -142,13 +146,12 @@ while True:
 
 name= input(Fore.GREEN + "\nEnter file name : ")
 
-
-scan_target(bssid, channel, mon_interface, name, zaman)
-
-convert(name)
-print(Fore.GREEN + "\nProcess ended")
-
-checking(name)
+while True:
+    scan_target(bssid, channel, mon_interface, name, zaman)
+    convert(name)
+    print(Fore.GREEN + "\nProcess ended")
+    if checking(name) == 0:
+        break
 
 if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y":
     managed_mode(mon_interface)
