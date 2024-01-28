@@ -7,15 +7,25 @@ import pyfiglet
 
 
 def set_monitor_mode(interface):
-    if "mon" in interface:
+    process = sub.run(["iwconfig"], stdout=sub.PIPE)
+    print(process.stdout.decode())
+    result= process.stdout.decode()
+
+    if "mon" in result:
         print(Fore.GREEN + "\ninterface already in monitor mode")
         time.sleep(1)
         return interface
     else:
         sub.call(["airmon-ng","start",interface],stdout= sub.PIPE)
         print(Fore.GREEN + "\nInterface switched to monitor mode")
-        time.sleep(1)
-        return interface+"mon"
+
+        process = sub.run(["iwconfig"], stdout=sub.PIPE)
+        result = process.stdout.decode()
+        if "mon" in result:
+            time.sleep(1)
+            return interface
+        else:
+            return interface + "mon"
 
 
 def scan_wifi(mon_interface):
