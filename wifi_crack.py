@@ -48,9 +48,9 @@ def convert(name):
     if filenames:
         for filename in filenames:
             with open("/dev/null", "w") as devnull:
-                sub.Popen(["hcxpcapngtool", filename, "-o", "hash.hc22000"], stdout=devnull, stderr=devnull)
+                sub.Popen(["hcxpcapngtool", filename, "-o", f"{name}.hc22000"], stdout=devnull, stderr=devnull)
     else:
-        print(Fore.Red + "\nNo matching files found.")
+        print(Fore.RED + "\nNo matching files found.")
 
     file1 = glob.glob(name+"*.csv")
     file2 = glob.glob(name+"*.netxml")
@@ -59,6 +59,22 @@ def convert(name):
         sub.Popen(["rm", filename])
 
 
+
+
+def checking(name):
+    if glob.glob(name + ".hc22000"):
+        print(Fore.GREEN + "\nPassword found ---->> " + name + ".hc22000" )
+    else:
+        print(Fore.RED + "\nPassword not found")
+
+
+
+
+def managed_mode(mon_interface):
+    managed = sub.Popen(["airmon-ng", "stop", mon_interface])
+    managed.wait()
+    print(Fore.GREEN + "\nSwitched to interface managed mode")
+    print(pyfiglet.figlet_format("END"))
 
 
 #START
@@ -90,12 +106,10 @@ scan_target(bssid, channel, mon_interface, name, zaman)
 convert(name)
 print(Fore.GREEN + "\nProcess ended")
 
-if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y":
-    managed = sub.Popen(["airmon-ng", "stop", mon_interface])
-    managed.wait()
-    print(Fore.GREEN + "\nSwitched to interface managed mode")
+checking(name)
 
-print(pyfiglet.figlet_format("END"))
+if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y":
+    managed_mode(mon_interface)
 
 
 
