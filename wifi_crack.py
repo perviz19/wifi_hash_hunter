@@ -74,7 +74,7 @@ def select_wifi():
     bssid_list = []
     ssid_list = []
     channel_list = []
-    print(Fore.YELLOW + f"\n  \tNAME\t\t\t CHANNEL\t\tBSSID")
+    print(Fore.YELLOW + f"\n  \tNAME\t\t\t CHANNEL\t\tESSID")
     with open(output_file, "r") as file:
         for line in file:
             if "Station" in line:
