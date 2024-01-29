@@ -82,7 +82,7 @@ def select_wifi():
             else:
                 match_bssid = re.search(r"(\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)", line)
                 match_channel = re.search(r"\d\d:\d\d:\d\d,\s(..),", line)
-                match_ssid = re.search(r"\s\d,\s(\D+),", line)
+                match_ssid = re.search(r"([^,]+),\s+$", line)
                 if match_bssid and match_channel and match_ssid:
                     bssid_list.append(match_bssid.group(1))
                     channel_list.append(match_channel.group(1))
@@ -144,7 +144,7 @@ def checking(name):
         return 0
     else:
         print(Fore.RED + "\nPassword not found")
-        if input(Fore.YELLOW + "\nDo you want try again (yes - y ||| no- n): ") == "y":
+        if input(Fore.YELLOW + "\nDo you want try again (yes - y ||| no- n): ") == "y" or "yes":
             return 1
         else:
             return 0
@@ -195,5 +195,5 @@ while True:
     if checking(name) == 0:
         break
 
-if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y":
+if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y" or "yes":
     managed_mode(mon_interface)
