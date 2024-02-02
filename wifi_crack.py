@@ -7,7 +7,7 @@ import re
 
 
 def check_tool():
-    tool_names = ["xterm", "aircrack-ng", "hcxtools"]
+    tool_names = ["xterm", "aircrack-ng", "hcxpcapngtool"]
     for tool in tool_names:
         time.sleep(0.5)
         try:
@@ -16,6 +16,8 @@ def check_tool():
         except sub.CalledProcessError:
             print(Fore.RED + f"{tool} is not installed\n")
             decision = input(Fore.YELLOW + f"Do you want install {tool}: (YES - y ||| NO - n): ")
+            if tool == "hcxpcapngtool":
+                tool = "hcxtools"
             if decision == "y":
                 dowload = sub.Popen(["apt", "install", tool])
                 dowload.wait()
