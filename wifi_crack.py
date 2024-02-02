@@ -7,7 +7,7 @@ import re
 
 
 def check_tool():
-    tool_names = ["python", "pip", "xterm", "aircrack-ng", "hcxpcapngtool"]
+    tool_names = ["xterm", "aircrack-ng", "hcxtools"]
     for tool in tool_names:
         time.sleep(0.5)
         try:
