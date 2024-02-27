@@ -146,7 +146,7 @@ def checking(name):
         return 0
     else:
         print(Fore.RED + "\nPassword not found")
-        if input(Fore.YELLOW + "\nDo you want try again (yes - y ||| no- n): ") == "y" or "yes":
+        if input(Fore.YELLOW + "\nDo you want try again (yes - y ||| no- n): ") == "y":
             return 1
         else:
             return 0
@@ -197,5 +197,5 @@ while True:
     if checking(name) == 0:
         break
 
-if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y" or "yes":
+if input(Fore.YELLOW + "\nSwitch to interface managed mode? ( yes-y || No-n ): ") == "y":
     managed_mode(mon_interface)
